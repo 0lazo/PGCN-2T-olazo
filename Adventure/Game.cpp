@@ -24,6 +24,8 @@ void Game::MainMenu()
 	std::cout << " 3: Travel" << std::endl;
 	std::cout << " 4: Level Up" << std::endl;
 	std::cout << " 5: Skill Up" << std::endl;
+	std::cout << " 6: Save Player" << std::endl;
+	std::cout << " 7: load Player" << std::endl;
 
 
 	std::cout << " Enter Choice" << std::endl;
@@ -38,18 +40,23 @@ void Game::MainMenu()
 	case 1:
 		PrintPlayerStats();
 		break;
-
 	case 2:
 		NewEnemy();
 		break;
-
 	case 3:
 		Travel();
+		break;
 	case 4:
 		LevelUp();
 		break;
 	case 5:
 		SkillUp();
+		break;
+	case 6:
+		SavePlayer();
+		break;
+	case 7:
+		LoadPlayer();
 		break;
 	default:
 		std::cout << "Invalid Option" << std::endl;
@@ -64,10 +71,33 @@ void Game::Travel()
 
 void Game::SavePlayer()
 {
+	std::string fileName = "saveplayer.txt";
+	std::ofstream outFile(fileName);
+	if (outFile.is_open())
+	{
+		outFile << player.SaveStats() << " ";
+	}
+	else
+	{
+		std::cout << "Cant save Game" << std::endl;
+	}
+	outFile.close();
+	std::cout << "Is Saved" << std::endl;
 }
 
 void Game::LoadPlayer()
 {
+	std::string fileName = "saveplayer.txt";
+	std::ifstream inFile(fileName);
+	if (inFile.is_open())
+	{
+		player.LoadStats(fileName);
+	}
+	else
+	{
+		std::cout << "Cant load Game" << std::endl;
+	}
+	inFile.close();
 }
 
 void Game::NewPlayer()
@@ -78,7 +108,7 @@ void Game::NewPlayer()
 void Game::NewEnemy()
 {
 	srand(static_cast<unsigned int>(time(0)));
-	std::string name = "arquilian";
+	std::string name = "rebotin";
 	int level = (rand() % 10);
 	int hp = (rand() % 10);
 	int xp = (rand() % 2);
